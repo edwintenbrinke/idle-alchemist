@@ -16,8 +16,10 @@ class UpdateInventoryListener
         $rng = new RNGService($player->id + $plot->id);
         $quantity = $rng->randomInt($ingredient->yield_min, $ingredient->yield_max);
 
-        $inventory = $player->inventory ?? [];
+        $inventory = $player->inventory;
+
         $inventory[$ingredient->name] = ($inventory[$ingredient->name] ?? 0) + $quantity;
+//        dd($inventory);
         $player->update(['inventory' => $inventory]);
 
         // Reset farm plot

@@ -26,14 +26,12 @@ class FarmTest extends TestCase
         $plot->update([
             'ingredient_id' => $ingredient->id,
             'planted_at' => now(),
-            'growth_hours' => $ingredient->growth_hours
         ]);
 
         // Simulate crop growth completion
         CompleteCropJob::dispatchSync($plot);
 
         $player->refresh();
-        dd($player);
         $this->assertArrayHasKey($ingredient->name, $player->inventory);
         $this->assertGreaterThanOrEqual($ingredient->yield_min, $player->inventory[$ingredient->name]);
     }

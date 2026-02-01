@@ -14,9 +14,9 @@ class FarmController extends Controller
 {
     public function plant(Request $request, FarmPlot $plot)
     {
+        // TODO check if farm plot part of player auth
         $request->validate([
             'ingredient_id' => [
-//                'required|exists:idle_ingredients,id'
                 Rule::exists(Ingredient::class, 'id'),
             ]
         ]);

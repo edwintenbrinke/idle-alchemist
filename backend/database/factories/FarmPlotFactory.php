@@ -5,19 +5,29 @@ namespace Database\Factories;
 use App\Models\FarmPlot;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Player;
+use App\Models\Ingredient;
+use Illuminate\Support\Str;
 
 class FarmPlotFactory extends Factory
 {
     protected $model = FarmPlot::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
-            'uuid' => $this->faker->uuid(),
-            'player_id' => Player::factory(), // Automatically create a player if not provided
+            'uuid' => Str::uuid(),
+            'player_id' => Player::factory(),
             'ingredient_id' => null,
             'planted_at' => null,
-            'growth_hours' => 0,
         ];
     }
+
+    public function planted(): static
+    {
+        return $this->state(fn () => [
+            'ingredient_id' => Ingredient::factory(),
+            'planted_at' => now()->subHours(rand(0, 3)),
+        ]);
+    }
 }
+

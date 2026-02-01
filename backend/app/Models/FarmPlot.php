@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class FarmPlot extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'uuid', 'player_id', 'ingredient_id', 'planted_at', 'growth_hours'
     ];

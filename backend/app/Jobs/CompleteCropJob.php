@@ -10,7 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class CompleteCropJob implements ShouldQueue
+class CompleteCropJob
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 

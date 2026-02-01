@@ -12,6 +12,8 @@ return new class extends Migration {
             $table->string('name');
             $table->integer('level')->default(1);
             $table->integer('experience')->default(0);
+            $table->integer('knowledge')->default(0);
+            $table->integer('experiments_started')->default(0);
             $table->json('inventory')->nullable();
             $table->timestamps();
         });

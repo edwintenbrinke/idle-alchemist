@@ -2,23 +2,33 @@
 
 namespace Database\Factories;
 
-use App\Models\Ingredient;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Player;
+use App\Models\Ingredient;
+use Illuminate\Support\Str;
 
 class IngredientFactory extends Factory
 {
     protected $model = Ingredient::class;
 
-    public function definition()
+    public function definition(): array
     {
+        $yieldMin = $this->faker->numberBetween(1, 3);
+
         return [
-            'uuid' => $this->faker->uuid(),
-            'name' => $this->faker->unique()->word(),
-            'growth_hours' => $this->faker->numberBetween(1, 5),
-            'yield_min' => $this->faker->numberBetween(1, 2),
-            'yield_max' => $this->faker->numberBetween(3, 5),
-            'mutation_chance' => $this->faker->randomFloat(2, 0.01, 0.2),
+            'uuid' => Str::uuid(),
+            'name' => ucfirst($this->faker->unique()->word()),
+            'growth_hours' => $this->faker->numberBetween(1, 6),
+            'yield_min' => $yieldMin,
+            'yield_max' => $yieldMin + $this->faker->numberBetween(1, 3),
+            'mutation_chance' => $this->faker->numberBetween(0, 10),
         ];
     }
+
+    public function fastGrowing(): static
+    {
+        return $this->state(fn () => [
+            'growth_hours' => 1,
+        ]);
+    }
 }
+
