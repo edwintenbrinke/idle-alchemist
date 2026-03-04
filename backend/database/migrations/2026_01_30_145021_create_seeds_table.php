@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up() {
-        Schema::create('idle_ingredients', function (Blueprint $table) {
+        Schema::create('idle_seeds', function (Blueprint $table) {
             $table->id();
             $table->uuid()->unique();
             $table->string('name');
@@ -19,7 +19,7 @@ return new class extends Migration {
     }
 
     public function down() {
-        Schema::dropIfExists('ingredients');
+        Schema::dropIfExists('idle_seeds');
     }
 };
 

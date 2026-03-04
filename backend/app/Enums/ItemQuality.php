@@ -4,43 +4,60 @@ namespace App\Enums;
 
 enum ItemQuality: string
 {
-    case COMMON = 'common';
-    case UNCOMMON = 'uncommon';
-    case RARE = 'rare';
-    case EPIC = 'epic';
-    case LEGENDARY = 'legendary';
+    case Common = 'common';
+    case Uncommon = 'uncommon';
+    case Rare = 'rare';
+    case Epic = 'epic';
+    case Legendary = 'legendary';
 
     public function multiplier(): float
     {
         return match ($this) {
-            self::COMMON => 1.0,
-            self::UNCOMMON => 1.25,
-            self::RARE => 1.6,
-            self::EPIC => 2.2,
-            self::LEGENDARY => 3.0,
+            self::Common => 1.0,
+            self::Uncommon => 1.25,
+            self::Rare => 1.6,
+            self::Epic => 2.2,
+            self::Legendary => 3.0,
         };
     }
 
     public function dropWeight(): int
     {
         return match ($this) {
-            self::COMMON => 1000,
-            self::UNCOMMON => 400,
-            self::RARE => 120,
-            self::EPIC => 25,
-            self::LEGENDARY => 3,
+            self::Common => 1000,
+            self::Uncommon => 400,
+            self::Rare => 120,
+            self::Epic => 25,
+            self::Legendary => 3,
         };
     }
 
     public static function rarityOrder(): array
     {
         return [
-            self::LEGENDARY,
-            self::EPIC,
-            self::RARE,
-            self::UNCOMMON,
-            self::COMMON,
+            self::Legendary,
+            self::Epic,
+            self::Rare,
+            self::Uncommon,
+            self::Common,
         ];
+    }
+
+    public function isLowerThan(ItemQuality $other): bool
+    {
+        return array_search($this, self::rarityOrder(), true)
+            > array_search($other, self::rarityOrder(), true);
+    }
+
+    public function isHigherThan(ItemQuality $other): bool
+    {
+        return array_search($this, self::rarityOrder(), true)
+            < array_search($other, self::rarityOrder(), true);
+    }
+
+    public function isAtLeast(ItemQuality $other): bool
+    {
+        return ! $this->isLowerThan($other);
     }
 }
 

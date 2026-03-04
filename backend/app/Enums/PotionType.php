@@ -32,24 +32,4 @@ enum PotionType: string
     // Farming / idle
     case GrowthSpeed = 'growth_speed';
     case YieldBonus = 'yield_bonus';
-
-    public function isBuff(): bool
-    {
-        return in_array($this, [
-            self::Strength,
-            self::Defense,
-            self::Speed,
-            self::CriticalChance,
-            self::Luck,
-            self::Experience,
-            self::GoldFind,
-        ], true);
-    }
-
-    public function isElemental(): bool
-    {
-        return str_contains($this->value, 'fire')
-            || str_contains($this->value, 'ice')
-            || str_contains($this->value, 'poison');
-    }
 }

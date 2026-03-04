@@ -2,11 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Enums\InventoryType;
 use Database\Seeders\DatabaseSeeder;
 use Tests\TestCase;
 use App\Models\Player;
 use App\Models\FarmPlot;
-use App\Models\Ingredient;
+use App\Models\Seed;
 use App\Jobs\CompleteCropJob;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -20,7 +21,7 @@ class FarmTest extends TestCase
 
         $player = Player::first();
         $plot = $player->farmPlots()->first();
-        $ingredient = Ingredient::first();
+        $ingredient = Seed::first();
 
         // Plant
         $plot->update([
@@ -32,7 +33,7 @@ class FarmTest extends TestCase
         CompleteCropJob::dispatchSync($plot);
 
         $player->refresh();
-        $this->assertArrayHasKey($ingredient->name, $player->inventory);
-        $this->assertGreaterThanOrEqual($ingredient->yield_min, $player->inventory[$ingredient->name]);
+        $this->assertArrayHasKey($ingredient->id, $player->inventory[InventoryType::Herbs]);
+        $this->assertGreaterThanOrEqual($ingredient->yield_min, $player->inventory[InventoryType::Herbs][$ingredient->id]);
     }
 }

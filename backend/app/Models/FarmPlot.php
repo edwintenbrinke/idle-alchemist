@@ -10,7 +10,7 @@ class FarmPlot extends Model
     use HasFactory;
 
     protected $fillable = [
-        'uuid', 'player_id', 'ingredient_id', 'planted_at', 'growth_hours'
+        'uuid', 'player_id', 'seed_id', 'planted_at', 'growth_hours'
     ];
 
     protected $casts = [
@@ -24,9 +24,9 @@ class FarmPlot extends Model
         return $this->belongsTo(Player::class);
     }
 
-    public function ingredient()
+    public function seed()
     {
-        return $this->belongsTo(Ingredient::class);
+        return $this->belongsTo(Seed::class);
     }
 }
 

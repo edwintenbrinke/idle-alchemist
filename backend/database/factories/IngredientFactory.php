@@ -2,9 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Enums\IngredientCategory;
+use App\Enums\ItemQuality;
 use App\Models\Ingredient;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class IngredientFactory extends Factory
 {
@@ -12,22 +13,36 @@ class IngredientFactory extends Factory
 
     public function definition(): array
     {
-        $yieldMin = $this->faker->numberBetween(1, 3);
-
         return [
-            'uuid' => Str::uuid(),
             'name' => ucfirst($this->faker->unique()->word()),
-            'growth_hours' => $this->faker->numberBetween(1, 6),
-            'yield_min' => $yieldMin,
-            'yield_max' => $yieldMin + $this->faker->numberBetween(1, 3),
-            'mutation_chance' => $this->faker->numberBetween(0, 10),
+            'slug' => $this->faker->unique()->slug(),
+            'category' => $this->faker->randomElement(
+                array_map(fn ($e) => $e->value, IngredientCategory::cases())
+            ),
+            'tags' => $this->faker->randomElements(
+                ['fire', 'ice', 'nature', 'poison', 'aquatic'],
+                rand(1, 2)
+            ),
+            'base_rarity' => $this->faker->randomElement(
+                array_map(fn ($e) => $e->value, ItemQuality::cases())
+            ),
+            'base_value' => $this->faker->numberBetween(1, 20),
         ];
     }
 
-    public function fastGrowing(): static
+    public function herb(): static
     {
-        return $this->state(fn () => [
-            'growth_hours' => 1,
+        return $this->state([
+            'category' => 'herb',
+            'tags' => ['nature'],
+        ]);
+    }
+
+    public function fish(): static
+    {
+        return $this->state([
+            'category' => 'fish',
+            'tags' => ['aquatic'],
         ]);
     }
 }

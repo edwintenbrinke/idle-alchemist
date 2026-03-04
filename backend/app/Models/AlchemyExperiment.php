@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\AlchemyExperimentStatus;
+use App\Enums\ItemQuality;
+use App\Enums\PotionType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -47,5 +49,23 @@ class AlchemyExperiment extends Model
     public function isCompleted(): bool
     {
         return $this->status === AlchemyExperimentStatus::COMPLETED;
+    }
+
+    public function potionType(): ?PotionType
+    {
+        if (! isset($this->result_payload['potion_type'])) {
+            return null;
+        }
+
+        return PotionType::from($this->result_payload['potion_type']);
+    }
+
+    public function potionQuality(): ?ItemQuality
+    {
+        if (! isset($this->result_payload['quality'])) {
+            return null;
+        }
+
+        return ItemQuality::from($this->result_payload['quality']);
     }
 }

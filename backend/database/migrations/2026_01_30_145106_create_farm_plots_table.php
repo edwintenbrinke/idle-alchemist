@@ -10,14 +10,14 @@ return new class extends Migration {
             $table->id();
             $table->uuid()->unique();
             $table->foreignId('player_id')->constrained('idle_players')->cascadeOnDelete();
-            $table->foreignId('ingredient_id')->nullable()->constrained('idle_ingredients')->nullOnDelete();
+            $table->foreignId('seed_id')->nullable()->constrained('idle_seeds')->nullOnDelete();
             $table->timestamp('planted_at')->nullable();
             $table->timestamps();
         });
     }
 
     public function down() {
-        Schema::dropIfExists('farm_plots');
+        Schema::dropIfExists('idle_farm_plots');
     }
 };
 

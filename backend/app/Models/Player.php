@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\InventoryType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,6 +24,11 @@ class Player extends Authenticatable
     public function farmPlots()
     {
         return $this->hasMany(FarmPlot::class);
+    }
+
+    public function inventoryByType(InventoryType $type): ?array
+    {
+        return $this->inventory[$type->value] ?? null;
     }
 }
 

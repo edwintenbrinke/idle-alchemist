@@ -51,6 +51,6 @@ class RNGService
             }
         }
 
-        return ItemQuality::COMMON;
+        return ItemQuality::Common;
     }
 }

@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('potions');
+        Schema::dropIfExists('idle_potions');
     }
 };

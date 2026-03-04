@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Models\FarmPlot;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Player;
-use App\Models\Ingredient;
+use App\Models\Seed;
 use Illuminate\Support\Str;
 
 class FarmPlotFactory extends Factory
@@ -17,7 +17,7 @@ class FarmPlotFactory extends Factory
         return [
             'uuid' => Str::uuid(),
             'player_id' => Player::factory(),
-            'ingredient_id' => null,
+            'seed_id' => null,
             'planted_at' => null,
         ];
     }
@@ -25,7 +25,7 @@ class FarmPlotFactory extends Factory
     public function planted(): static
     {
         return $this->state(fn () => [
-            'ingredient_id' => Ingredient::factory(),
+            'seed_id' => Seed::factory(),
             'planted_at' => now()->subHours(rand(0, 3)),
         ]);
     }

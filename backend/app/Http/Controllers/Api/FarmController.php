@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Jobs\CompleteCropJob;
 use App\Models\FarmPlot;
-use App\Models\Ingredient;
+use App\Models\Seed;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\Rule;
@@ -16,17 +16,19 @@ class FarmController extends Controller
     {
         // TODO check if farm plot part of player auth
         $request->validate([
-            'ingredient_id' => [
-                Rule::exists(Ingredient::class, 'id'),
+            'seed_id' => [
+                Rule::exists(Seed::class, 'id'),
             ]
         ]);
 
-        $ingredient = Ingredient::findOrFail($request->ingredient_id);
+        $ingredient = Seed::findOrFail($request->seed_id);
         $now = now();
         $plot->update([
-            'ingredient_id' => $ingredient->id,
+            'seed_id' => $ingredient->id,
             'planted_at' => $now,
         ]);
+
+        // TODO remove seeds form inventory
 
         // Dispatch completion job
         CompleteCropJob::dispatch($plot)->delay($now->copy()->addHours($ingredient->growth_hours));
