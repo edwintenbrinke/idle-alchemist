@@ -1,4 +1,4 @@
-FROM php:8.3-fpm
+FROM php:8.3.36-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -17,6 +17,9 @@ RUN apt-get update && apt-get install -y \
 
 # Install Redis extension
 RUN pecl install redis && docker-php-ext-enable redis
+
+# CVE-2026-109619: blokkeert de bekende aanvalsroute (naast de gepatchte PHP-versie)
+RUN echo 'session.upload_progress.enabled=0' > /usr/local/etc/php/conf.d/zz-security.ini
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
